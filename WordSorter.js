@@ -1,8 +1,8 @@
 class Word {
 /*
-    The idea class is to store both the
-    spelling of a word or letter and the phonetics,
-    to allow sorting by either
+    The idea of this class is to store both the
+    spelling of a word and the phonetics,
+    to allow sorting by either. Also works for letters.
 */
     constructor(spelling, phonetic) {
         this.spelling = spelling
@@ -101,7 +101,7 @@ const sortTypes = ['default', 'phonetic']
     ]
 */
 
-const sortLetters = (method) => {
+const sortWords = (method) => {
     let output = []
     if (method == 'default') output = defaultSort()
     if (method == 'phonetic') output = phoneticSort()
@@ -117,6 +117,6 @@ const phoneticSort = () => {
 }
 
 for (let sortMethod of sortTypes) {
-    const sortedLetters = sortLetters(sortMethod)
+    const sortedLetters = sortWords(sortMethod)
     console.log(sortedLetters)
 }
