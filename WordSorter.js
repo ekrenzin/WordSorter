@@ -61,7 +61,7 @@ const alphabet = [
 ]
 
 //let's assume these come from a db
-const words = [
+const inputWords = [
     new Word(spelling = 'apple'),
     new Word(spelling = 'brown'),
     new Word(spelling = 'bread'),
@@ -76,7 +76,7 @@ const inputAlphabeticalOrder = [
     'p', 't', 'u', 'v', 'z'
 ]
 
-const sort = (alphabeticalOrder) => {
+const sort = (alphabeticalOrder, words) => {
     const sortTypes = ['default', 'phonetic', 'arbitraryKeySort']
 
     const sortWords = (method) => {
@@ -124,4 +124,4 @@ const sort = (alphabeticalOrder) => {
 }
 
 
-sort(inputAlphabeticalOrder)
+sort(inputAlphabeticalOrder, inputWords)
