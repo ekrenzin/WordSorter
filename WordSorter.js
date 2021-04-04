@@ -1,16 +1,16 @@
 class Word {
-/*
-    The idea of this class is to store both the
-    spelling of a word and the phonetics,
-    to allow sorting by either. Also works for letters.
-*/
+    /*
+        The idea of this class is to store both the
+        spelling of a word and the phonetics,
+        to allow sorting by either. Also works for letters.
+    */
     constructor(spelling, phonetic) {
         this.spelling = spelling
         this.phonetic = phonetic
     }
 }
 
-const words = [
+const alphabet = [
     new Word('a', "a"),
     new Word('b', "bee"),
     new Word('c', "cee"),
@@ -39,72 +39,29 @@ const words = [
     new Word('z', "zee"),
 ]
 
-const sortTypes = ['default', 'phonetic']
+const words = [
+    new Word('apple', "see"),
+    new Word('brown', "see"),
+    new Word('bread', "see"),
+    new Word('bear', "see"),
+    new Word('built', "see"),
+    new Word('even weed', "even weed"),
+]
 
-/*
-    Default outputs: [
-        Word { spelling: 'a', phonetic: 'a' },
-        Word { spelling: 'b', phonetic: 'bee' },
-        Word { spelling: 'c', phonetic: 'cee' },
-        Word { spelling: 'd', phonetic: 'dee' },
-        Word { spelling: 'e', phonetic: 'e' },
-        Word { spelling: 'f', phonetic: 'ef' },
-        Word { spelling: 'g', phonetic: 'gee' },
-        Word { spelling: 'h', phonetic: 'aitch' },
-        Word { spelling: 'i', phonetic: 'i' },
-        Word { spelling: 'j', phonetic: 'jay' },
-        Word { spelling: 'k', phonetic: 'kay' },
-        Word { spelling: 'l', phonetic: 'el' },
-        Word { spelling: 'm', phonetic: 'em' },
-        Word { spelling: 'n', phonetic: 'en' },
-        Word { spelling: 'o', phonetic: 'o' },
-        Word { spelling: 'p', phonetic: 'pee' },
-        Word { spelling: 'q', phonetic: 'cue' },
-        Word { spelling: 'r', phonetic: 'ar' },
-        Word { spelling: 's', phonetic: 'es' },
-        Word { spelling: 't', phonetic: 'tee' },
-        Word { spelling: 'u', phonetic: 'u' },
-        Word { spelling: 'v', phonetic: 'vee' },
-        Word { spelling: 'w', phonetic: 'doubleu' },
-        Word { spelling: 'x', phonetic: 'ex' },
-        Word { spelling: 'y', phonetic: 'wy' },
-        Word { spelling: 'z', phonetic: 'zee' }
-    ]
+const arbitrayKey = [
+    'o','a', 'r', 'h', 'b', 'c', 'q', 'd',
+    'w', 'y', 'e', 'f', 'l', 'm', 'n',
+    's', 'x', 'g', 'i', 'j', 'k', 
+    'p', 't', 'u', 'v', 'z'
+]
 
-    Phonetic outputs: [
-        Word { spelling: 'a', phonetic: 'a' },
-        Word { spelling: 'h', phonetic: 'aitch' },
-        Word { spelling: 'r', phonetic: 'ar' },
-        Word { spelling: 'b', phonetic: 'bee' },
-        Word { spelling: 'c', phonetic: 'cee' },
-        Word { spelling: 'q', phonetic: 'cue' },
-        Word { spelling: 'd', phonetic: 'dee' },
-        Word { spelling: 'w', phonetic: 'doubleu' },
-        Word { spelling: 'e', phonetic: 'e' },
-        Word { spelling: 'f', phonetic: 'ef' },
-        Word { spelling: 'l', phonetic: 'el' },
-        Word { spelling: 'm', phonetic: 'em' },
-        Word { spelling: 'n', phonetic: 'en' },
-        Word { spelling: 's', phonetic: 'es' },
-        Word { spelling: 'x', phonetic: 'ex' },
-        Word { spelling: 'g', phonetic: 'gee' },
-        Word { spelling: 'i', phonetic: 'i' },
-        Word { spelling: 'j', phonetic: 'jay' },
-        Word { spelling: 'k', phonetic: 'kay' },
-        Word { spelling: 'o', phonetic: 'o' },
-        Word { spelling: 'p', phonetic: 'pee' },
-        Word { spelling: 't', phonetic: 'tee' },
-        Word { spelling: 'u', phonetic: 'u' },
-        Word { spelling: 'v', phonetic: 'vee' },
-        Word { spelling: 'y', phonetic: 'wy' },
-        Word { spelling: 'z', phonetic: 'zee' }
-    ]
-*/
+const sortTypes = ['default', 'phonetic', 'arbitraryKeySort']
 
 const sortWords = (method) => {
     let output = []
     if (method == 'default') output = defaultSort()
     if (method == 'phonetic') output = phoneticSort()
+    if (method == 'arbitraryKeySort') output = arbitraryKeySort()
     return output
 }
 
@@ -114,6 +71,28 @@ const defaultSort = () => {
 
 const phoneticSort = () => {
     return words.sort((a, b) => (a.phonetic > b.phonetic) ? 1 : -1)
+}
+
+const arbitraryKeySort = () => {
+    return words.sort((a, b) => {
+        let relativeIdxA = arbitrayKey.indexOf(a.spelling[0])
+        let relativeIdxB = arbitrayKey.indexOf(b.spelling[0])
+        equal = relativeIdxA === relativeIdxB
+
+        let strChar = 0
+
+        while (equal) {
+            // while the string are equal, check next char until length, and if len, return 
+            strChar += 1
+            if (!a.spelling.length >= strChar + 1) return 1
+            if (!b.spelling.length >= strChar + 1) return -1
+            relativeIdxA = arbitrayKey.indexOf(a.spelling[strChar])
+            relativeIdxB = arbitrayKey.indexOf(b.spelling[strChar])
+            equal = relativeIdxA === relativeIdxB
+        }
+        if (relativeIdxA > relativeIdxB) return 1
+        else return -1
+    })
 }
 
 for (let sortMethod of sortTypes) {
